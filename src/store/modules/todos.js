@@ -12,15 +12,26 @@ const getters = {
 
 const actions = {
   async fetchTodos({ commit }) {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
+    const response = await axios.get(
+      'https://jsonplaceholder.typicode.com/todos'
+    );
 
     // 1st paramater is mutation, 2nd is what you want to pass in
     commit('setTodos', response.data);
+  },
+  async addTodo({ commit }, title) {
+    const response = await axios.post(
+      'https://jsonplaceholder.typicode.com/todos', 
+      { title, completed: false }
+    );
+
+    commit('newTodo', response.data);
   }
 };
 
 const mutations = {
-  setTodos: (state, todos) => (state.todos = todos)
+  setTodos: (state, todos) => (state.todos = todos),
+  newTodo: (state, todo) => state.todos.unshift(todo)
 };
 
 export default {
